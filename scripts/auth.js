@@ -11,6 +11,24 @@ auth.onAuthStateChanged(user => {
     }
   })
 
+//create new candidate
+const createForm = document.querySelector('#create-form');
+createForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  db.collection('2020ElectionCandidates').add({
+    Candidate: createForm.title.value,
+    Slogan: createForm.content.value
+  }).then(() => {
+    // close the create modal & reset form
+    const modal = document.querySelector('#modal-create');
+    M.Modal.getInstance(modal).close();
+    createForm.reset();
+  }).catch(err => {
+    console.log(err.message);
+  });
+});
+
+
 //signup
 const signupForm = document.querySelector('#signup-form');
 signupForm.addEventListener('submit',(e)=>{
@@ -30,24 +48,6 @@ signupForm.addEventListener('submit',(e)=>{
 
     });
 });
-//create new candidate
-const createForm = document.querySelector('#create-form');
-createForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  db.collection('2020ElectionCandidates').add({
-    Candidate: createForm.title.value,
-    Slogan: createForm.content.value
-  }).then(() => {
-    // close the create modal & reset form
-    const modal = document.querySelector('#modal-create');
-    M.Modal.getInstance(modal).close();
-    createForm.reset();
-  }).catch(err => {
-    console.log(err.message);
-  });
-});
-
-
 //log out
 const logout = document.querySelector('#logout')
 logout.addEventListener('click',(e)=>{
